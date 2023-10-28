@@ -7,7 +7,7 @@ const information = [
         courseSchedule: '',
         name: '',
         fatherName: '',
-        nationality: '',
+        nationality: 'India',
         dateOfBirth: '',
         birthProof: '',
         domicile: '',
@@ -16,7 +16,7 @@ const information = [
         village: '',
         city: '',
         pincode: '',
-        state: '',
+        state: 'West Bengal',
         email: '',
         mobileNumber: '7908199097',
         education: '',
@@ -36,9 +36,9 @@ const information = [
 ]
 
 (async () => {
-    information.forEach( async (person) => {
-        // Launch a new browser instance
-        const browser = await puppeteer.launch({headless: false});
+    const browser = await puppeteer.launch({headless: false});
+
+    for (let person of information) {
         const page = await browser.newPage();
     
         // Navigate to the first Page
@@ -50,7 +50,7 @@ const information = [
         // Submit mobile number
         await Promise.all([
             page.click('#lnkbtnSubmit'),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })  // Wait for navigation to complete
+            page.waitForNavigation({ waitUntil: 'networkidle0' })
         ]);
     
         // Check the terms and conditions if not already checked
@@ -61,13 +61,17 @@ const information = [
         
         // Click on the next button to go to the final form
         await Promise.all([
-        await page.click('#lnkbtnNext'),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })  // Wait for navigation to complete
+            page.click('#lnkbtnNext'),
+            page.waitForNavigation({ waitUntil: 'networkidle0' })
         ]);
+    
+        await page.type('#txtName', person.name)
+        await page.type('#txtFatherName', person.fatherName)
+        await page.type('#txtNationality', person.nationality)
+        await page.type('#txtDateOfBirth', person.dateOfBirth)
 
-        
-        await page.waitForTimeout(4000);
-        await browser.close();
+        await page.close();
+    }
 
-    })
+    await browser.close();
 })();
