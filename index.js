@@ -5,31 +5,28 @@ const information = [
         selectCourse: '',
         courseLevel: '',
         courseSchedule: '',
-        name: '',
-        fatherName: '',
+        name: 'Testing',
+        fatherName: 'Test',
         nationality: 'India',
         dateOfBirth: '',
-        birthProof: '/documents/birthProof.jpg',
-        houseNo: '',
-        village: '',
-        city: '',
-        pincode: '',
+        birthProof: './documents/birthCert.jpeg',
+        houseNo: '343',
+        village: 'Salt Lake',
+        city: 'Kolkata',
+        pincode: '733101',
         state: 'WEST BENGAL',
-        email: '',
+        email: 'test@gmail.com',
         mobileNumber: '7908199097',
-        education: '',
-        educationProof: '',
+        education: 'High School',
+        educationProof: './documents/birthCert.jpeg',
         vegNonVeg: 'Vegetarian',
-        bloodGroup: '',
-        height: '',
-        weight: '',
-        waist: '',
-        shoeSize: '',
-        photoOfApplicant: '',
-        signature: '',
-
-
-
+        bloodGroup: 'B-',
+        height: '6foot',
+        weight: '120pounds',
+        waist: '36',
+        shoeSize: '7UK',
+        photoOfApplicant: './documents/birthCert.jpeg',
+        signature: './documents/birthCert.jpeg'
 }
 ]
 
@@ -46,10 +43,8 @@ const information = [
         await page.type('#txtMobileNo', person.mobileNumber);
     
         // Submit mobile number
-        await Promise.all([
-            page.click('#lnkbtnSubmit'),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
-        ]);
+        await  page.click('#lnkbtnSubmit'),
+        await  page.waitForNavigation({ waitUntil: 'networkidle0' })
     
         // Check the terms and conditions if not already checked
         const isChecked = await page.$eval('#chkAccept', checkbox => checkbox.checked);
@@ -58,10 +53,8 @@ const information = [
         }
         
         // Click on the next button to go to the final form
-        await Promise.all([
-            page.click('#lnkbtnNext'),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
-        ]);
+        await page.click('#lnkbtnNext'),
+        await page.waitForNavigation({ waitUntil: 'networkidle0' })
     
         await page.type('#txtName', person.name)
         await page.type('#txtFatherName', person.fatherName)
@@ -70,49 +63,48 @@ const information = [
 
         await page.waitForSelector('#FupBirthCertificate');
         const dobInput = await page.$('#FupBirthCertificate');
-        await dobInput.uploadFile(information.birthProof);
+        await dobInput.uploadFile(person.birthProof);
 
-        await page.type('#txtHouseNoApartment', information.houseNo)
-        await page.type('#txtStreetVillageColony', information.village)
-        await page.type('#txtDistrictCity', information.city)
-        await page.type('#txtPincode', information.pincode)
+        await page.type('#txtHouseNoApartment', person.houseNo)
+        await page.type('#txtStreetVillageColony', person.village)
+        await page.type('#txtDistrictCity', person.city)
+        await page.type('#txtPincode', person.pincode)
 
         await page.waitForSelector('#ddlState');
-        await page.select('#ddlState', information.state);
+        await page.select('#ddlState', person.state);
 
         await page.waitForSelector('#ddlEduationQualification');
-        await page.select('#ddlEduationQualification', information.education);
+        await page.select('#ddlEduationQualification', person.education);
 
         await page.waitForSelector('#ddlVegetarianOrNon');
-        await page.select('#ddlVegetarianOrNon', information.vegNonVeg);
+        await page.select('#ddlVegetarianOrNon', person.vegNonVeg);
 
         await page.waitForSelector('#FupEducationQualification');
         const eduProof = await page.$('#FupEducationQualification');
-        await eduProof.uploadFile(information.educationProof);
+        await eduProof.uploadFile(person.educationProof);
 
-        await page.type('#txtBloodGroup', information.bloodGroup)
-        await page.type('#txtHeight', information.height)
-        await page.type('#txtWeight', information.weight)
-        await page.type('#txtWaist', information.waist)
-        await page.type('#txtShoeSize', information.shoeSize)
+        await page.type('#txtBloodGroup', person.bloodGroup)
+        await page.type('#txtHeight', person.height)
+        await page.type('#txtWeight', person.weight)
+        await page.type('#txtWaist', person.waist)
+        await page.type('#txtShoeSize', person.shoeSize)
 
         await page.waitForSelector('#FupPhototOfApplicant');
         const appPhoto = await page.$('#FupPhototOfApplicant');
-        await appPhoto.uploadFile(information.photoOfApplicant);
+        await appPhoto.uploadFile(person.photoOfApplicant);
 
         await page.waitForSelector('#FupSignatureOfAppicant');
         const appSignature = await page.$('#FupSignatureOfAppicant');
-        await appSignature.uploadFile(information.signature);
+        await appSignature.uploadFile(person.signature);
 
         await page.click('#chkIAgree') // Check the final terms and conditions
 
         // Submit the final form
-        await Promise.all([
-            page.click('#btnSubmit'),
-            page.waitForNavigation({ waitUntil: 'networkidle0' })
-        ]);
+        await   page.click('#btnSubmit'),
+        await   page.waitForNavigation({ waitUntil: 'networkidle0' })
 
-        await page.screenshot({path: `SKii_${information.name}`})
+
+        await page.screenshot({path: `SKii_${person.name}.png`})
 
         await page.close();
     }
