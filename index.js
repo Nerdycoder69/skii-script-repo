@@ -14,7 +14,7 @@ const information = [
         village: 'Salt Lake',
         city: 'Kolkata',
         pincode: '733101',
-        state: 'WEST BENGAL',
+        state: '19',
         email: 'test@gmail.com',
         mobileNumber: '7908199097',
         education: 'High School',
@@ -30,7 +30,7 @@ const information = [
 }
 ]
 
-(async () => {
+const runScript = async () => {
     const browser = await puppeteer.launch({headless: false});
 
     for (let person of information) {
@@ -43,7 +43,7 @@ const information = [
         await page.type('#txtMobileNo', person.mobileNumber);
     
         // Submit mobile number
-        await  page.click('#lnkbtnSubmit'),
+        await  page.click('#lnkbtnSubmit')
         await  page.waitForNavigation({ waitUntil: 'networkidle0' })
     
         // Check the terms and conditions if not already checked
@@ -53,7 +53,7 @@ const information = [
         }
         
         // Click on the next button to go to the final form
-        await page.click('#lnkbtnNext'),
+        await page.click('#lnkbtnNext')
         await page.waitForNavigation({ waitUntil: 'networkidle0' })
     
         await page.type('#txtName', person.name)
@@ -69,6 +69,7 @@ const information = [
         await page.type('#txtStreetVillageColony', person.village)
         await page.type('#txtDistrictCity', person.city)
         await page.type('#txtPincode', person.pincode)
+        await page.type('#txtEmailId', person.email)
 
         await page.waitForSelector('#ddlState');
         await page.select('#ddlState', person.state);
@@ -100,14 +101,16 @@ const information = [
         await page.click('#chkIAgree') // Check the final terms and conditions
 
         // Submit the final form
-        await   page.click('#btnSubmit'),
-        await   page.waitForNavigation({ waitUntil: 'networkidle0' })
+        // await   page.click('#btnSubmit'),
+        // await   page.waitForNavigation({ waitUntil: 'networkidle0' })
 
 
-        await page.screenshot({path: `SKii_${person.name}.png`})
+        await page.screenshot({path: `./SKii_${person.name}.png`, fullPage: true})
 
         await page.close();
     }
 
     await browser.close();
-})();
+}
+
+runScript()
