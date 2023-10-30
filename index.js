@@ -107,10 +107,10 @@ const runScript = async () => {
 
         await page.screenshot({path: `./SKii_${person.name}.png`, fullPage: true})
 
-        await page.close();
+        // await page.close();
     }
 
-    await browser.close();
+    // await browser.close();
 }
 
 runScript()
