@@ -16,7 +16,7 @@ const information = [
         pincode: '733101',
         state: '19',
         email: 'test@gmail.com',
-        mobileNumber: '7908199097',
+        mobileNumber: '1234567890',
         education: 'High School',
         educationProof: './documents/birthCert.jpeg',
         vegNonVeg: 'Vegetarian',
